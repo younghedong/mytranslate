@@ -3,9 +3,10 @@
 
 import urllib
 import urllib2
+import json
 
 while True:
-	search = raw_input('Enter the words')
+	search = raw_input('Enter the words: ')
 	url = "http://fanyi.youdao.com/openapi.do"
 	values = {
 		'keyfrom': 'mytranslater',
@@ -22,6 +23,11 @@ while True:
 	try:
 		resp = urllib2.urlopen(req)
 		transed = resp.read()
-		print transed
+		myjson = json.loads(transed)#parse json to python dic
+		
+		for item in myjson['translation']:
+			print item.encode('UTF-8')
+		for item in myjson['basic']['explains']:
+			print item.encode('UTF-8')
 	except Exception as e:
 		print (str(e))
